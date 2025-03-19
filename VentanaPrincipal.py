@@ -6,29 +6,34 @@ class VentanaPrincipal(grafica.Tk):
     def __init__(self): # Declarar constructor
         super().__init__()
 
-        #dar titulo a la ventana
+        #dar titulo y tamaño a la ventana
         self.title("Seguros ARS")
+        self.geometry('400x400')
 
-        #Crear boton agregar usuarios
-        self.botonAgregarUsuarios = ttk.Button(self, text = "Agregar Usuario")
-        self.botonAgregarUsuarios.pack()
+        #definir contenedor para todos los widgets
+        #self.contenedor = ttk.Frame(self)
+        #self.contenedor.pack(side = "top", fill = "x")
 
-        #Crear boton de ver usuarios
-        self.botonVerUsuarios = ttk.Button(self, text = "Ver usuarios") 
-        self.botonVerUsuarios.pack()
 
-        #Crear Boton de ver citas medicas
-        self.botonCitas = ttk.Button(self, text = "Gestionar Citas")
-        self.botonCitas.pack()
+        #Crear botones
+        self.botonAgregarUsuarios = ttk.Button(self, text = "Agregar Usuario").grid(column = 0, row = 0, sticky="nsew")
+        self.botonVerUsuarios = ttk.Button(self, text = "Ver usuarios").grid(column = 1, row = 0, sticky="nsew")
+        self.botonCitas = ttk.Button(self, text = "Gestionar Citas").grid(column = 0, row = 1, sticky="nsew")
+        self.botonGestionarSeguros = ttk.Button(self, text = "Gestionar Seguros").grid(column = 1, row = 1, sticky = "nsew")
+        self.reportes = ttk.Button(self, text = "Reportes").grid(column = 0, row = 2, sticky = "nsew")
+        self.configuracion = ttk.Button(self, text = "Configuracion").grid(column = 1, row = 2, sticky = "nsew")
 
-        #Crear boton de gestionar seguros
-        self.botonGestionarSeguros = ttk.Button(self, text = "Gestionar Seguros")
-        self.botonGestionarSeguros.pack()
 
-        #Crear boton reportes
-        self.reportes = ttk.Button(self, text = "Reportes")
-        self.reportes.pack()
 
-        #Crear boton configuracion
-        self.configuracion = ttk.Button(self, text = "Configuracion")
-        self.configuracion.pack()
+
+
+        
+        #configurar columnas
+        self.grid_columnconfigure(0, weight=1, uniform="group1")
+        self.grid_columnconfigure(1, weight=1, uniform="group1")
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+
+
+        
