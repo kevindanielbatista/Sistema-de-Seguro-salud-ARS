@@ -10,11 +10,6 @@ class VentanaPrincipal(grafica.Tk):
         self.title("Seguros ARS")
         self.geometry('400x400')
 
-        #definir contenedor para todos los widgets
-        #self.contenedor = ttk.Frame(self)
-        #self.contenedor.pack(side = "top", fill = "x")
-
-
         #Crear botones
         self.botonAgregarUsuarios = ttk.Button(self, text = "Agregar Usuario").grid(column = 0, row = 0, sticky="nsew")
         self.botonVerUsuarios = ttk.Button(self, text = "Ver usuarios").grid(column = 1, row = 0, sticky="nsew")
@@ -24,10 +19,6 @@ class VentanaPrincipal(grafica.Tk):
         self.configuracion = ttk.Button(self, text = "Configuracion").grid(column = 1, row = 2, sticky = "nsew")
 
 
-
-
-
-        
         #configurar columnas
         self.grid_columnconfigure(0, weight=1, uniform="group1")
         self.grid_columnconfigure(1, weight=1, uniform="group1")
