@@ -2,37 +2,30 @@
    Este archivo es el punto de entrada del programa, es decir, la ventana principal
 """
 
-# Importa la libreria necesaria para interfaces graficas
-import tkinter as tk
+#Importa la libreria necesaria para interfaces graficas
 
-#Iniciar la ventana principal del programa
-programaPrincipal = tk.Tk()
-programaPrincipal.title("Seguros ARS") # agregar titulo a la ventana
+import VentanaPrincipal as vp 
 
-#Crear boton de agregar usuario
-agregar_usuario = tk.Button(programaPrincipal, text = "Registrar Usuario")
-agregar_usuario.pack()
+if __name__ == "__main__":
+   ventanaInicial = vp.VentanaPrincipal() # Crear objeto ventana principal
+   ventanaInicial.mainloop()
 
-#Crear boton de ver usuarios
-ver_usuarios = tk.Button(programaPrincipal, text = "Ver usuarios")
-ver_usuarios.pack()
+# #Crear boton de gestionar citas medicas
+# citas = tk.Button(programaPrincipal, text = "Gestionar Citas")
+# citas.pack()
 
-#Crear boton de gestionar citas medicas
-citas = tk.Button(programaPrincipal, text = "Gestionar Citas")
-citas.pack()
+# #Crear boton de gestionar seguros
+# seguros = tk.Button(programaPrincipal, text = "Gestionar seguros")
+# seguros.pack()
 
-#Crear boton de gestionar seguros
-seguros = tk.Button(programaPrincipal, text = "Gestionar seguros")
-seguros.pack()
+# #Crear boton de reportes
+# reportes = tk.Button(programaPrincipal, text = "Reportes")
+# reportes.pack()
 
-#Crear boton de reportes
-reportes = tk.Button(programaPrincipal, text = "Reportes")
-reportes.pack()
-
-#Crear boton de configuracion
-configuracion = tk.Button(programaPrincipal, text = "Configuracion")
-configuracion.pack()
+# #Crear boton de configuracion
+# configuracion = tk.Button(programaPrincipal, text = "Configuracion")
+# configuracion.pack()
 
 
 
-programaPrincipal.mainloop()
+# programaPrincipal.mainloop()
