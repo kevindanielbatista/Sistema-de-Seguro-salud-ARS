@@ -1,5 +1,6 @@
 import tkinter as grafica
 from tkinter import ttk
+import VentanaRegistrarUsuarios as registrar
 
 #Crear clase VentanaPrincipal que hereda la clase Tk
 class VentanaPrincipal(grafica.Tk):
@@ -11,7 +12,10 @@ class VentanaPrincipal(grafica.Tk):
         self.geometry('400x400')
 
         #Crear botones
-        self.botonAgregarUsuarios = ttk.Button(self, text = "Agregar Usuario").grid(column = 0, row = 0, sticky="nsew")
+        self.botonAgregarUsuarios = ttk.Button(self, text = "Agregar Usuario")
+        self.botonAgregarUsuarios.bind("<Button>", lambda e: registrar.VentanaRegistrarUsuarios(self))
+        self.botonAgregarUsuarios.grid(column = 0, row = 0, sticky="nsew")
+
         self.botonVerUsuarios = ttk.Button(self, text = "Ver usuarios").grid(column = 1, row = 0, sticky="nsew")
         self.botonCitas = ttk.Button(self, text = "Gestionar Citas").grid(column = 0, row = 1, sticky="nsew")
         self.botonGestionarSeguros = ttk.Button(self, text = "Gestionar Seguros").grid(column = 1, row = 1, sticky = "nsew")
