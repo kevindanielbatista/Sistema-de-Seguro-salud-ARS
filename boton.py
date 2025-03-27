@@ -1,6 +1,4 @@
-import tkinter as graficas
-from tkinter import ttk
-
-class Boton(ttk.Button):
-	def __init__(self, texto, master = None):
-		super().__init__(master = master, text = texto)
+import customtkinter as grafica
+class Boton(grafica.CTkButton):
+	def __init__(self, texto, master = None, *args, **kwargs):
+		super().__init__(master = master, text = texto, *args, **kwargs)
