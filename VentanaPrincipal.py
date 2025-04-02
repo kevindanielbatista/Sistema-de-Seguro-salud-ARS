@@ -23,8 +23,7 @@ class VentanaPrincipal(grafica.CTk):
         self.cambiar_cuadro(clase_cuadro = inicio.InicioSesion)
 
         # Configurar el peso de las filas y columnas
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(0, weight=1)
+
 
 
     def cambiar_cuadro(self, clase_cuadro):

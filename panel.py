@@ -42,6 +42,9 @@ class Panel(grafica.CTkFrame):
 	    self.botonConfiguracion = boton.Boton(master = self, texto = "Configuracion", command = self.configuracion.mostrar)
 	    self.botonConfiguracion.grid(column = 1, row = 2, sticky = "nsew")
 
+	    master.grid_rowconfigure(0, weight=1)
+	    master.grid_columnconfigure(0, weight=1)
+
 
 
 	    #configurar columnas
