@@ -2,31 +2,44 @@ import customtkinter as grafica
 import boton as bt
 import funciones_utilidad as utilidades
 import panel
+from PIL import Image
 
 class InicioSesion(grafica.CTkFrame): # La clase inicio sesion hereda del widget Frame
     def __init__(self, master): # Constructor de la clase
         grafica.CTkFrame.__init__(self, master) #Llamar al constructor de la clase base
 
-        master.grid_rowconfigure(0, weight=1)
-        master.grid_columnconfigure(0, weight=1)
+        # Configuración del grid principal (expandir fila y columnas)
+        self.grid_rowconfigure(0, weight=1)  
+        self.grid_rowconfigure(1, weight=1)  
+        self.grid_columnconfigure(0, weight=1)  # Columna izquierda (50%)
+        self.grid_columnconfigure(1, weight=1)  # Columna derecha (50%)
 
-        #configurar peso columnas
-        self.grid_columnconfigure(0, weight = 1)
-        self.grid_columnconfigure(1, weight = 1)
-        self.grid_rowconfigure(0, weight = 1)
-
-        #
-        grafica.CTkLabel(self, text="Inicio Sesion").grid(row = 0, column = 0, columnspan = 2) #Crear etiqueta de inicio
-
-        #Crear variable para cmabiar de cuadros
+        #Crear variable para cambiar de cuadros
         self._cuadro = None
 
         #Dividir la pantalla en dos
         lado_izquierdo = grafica.CTkFrame(self)
-        lado_izquierdo.grid(row = 1, column = 0, sticky = "nswe", ipadx = 300, ipady = 300, padx = 10)
+        lado_izquierdo.grid(row = 1, column = 0, sticky = "nswe", padx = 2)
         lado_derecho = grafica.CTkFrame(self)
-        lado_derecho.grid(row = 1, column = 1, sticky = "nswe", ipadx = 155, ipady = 300, padx = 10)
+        lado_derecho.grid(row = 1, column = 1, sticky = "nswe", padx = 2, ipadx = 150)
 
-        grafica.CTkButton(lado_derecho, text="Iniciar Sesion", #Botton para cambiar al cuadro de panel
-                  command=lambda: master.cambiar_cuadro(panel.Panel)).grid()
+
+        # Configurar el grid del lado derecho para centrar el botón
+        lado_derecho.grid_rowconfigure(0, weight=1)  # Espacio arriba
+        lado_derecho.grid_rowconfigure(1, weight=0)  # Fila del botón
+        lado_derecho.grid_rowconfigure(2, weight=1)  # Espacio abajo
+        lado_derecho.grid_columnconfigure(0, weight=1)  # Columna izquierda
+        lado_derecho.grid_columnconfigure(1, weight=0)  # Columna del botón
+        lado_derecho.grid_columnconfigure(2, weight=1)  # Columna derecha
+
+
+        #Cargar imagen
+        imagen = grafica.CTkImage(light_image = Image.open("imagenes/seguro.jpg"), size = (900, 700))
+        seguro = grafica.CTkLabel(master = lado_izquierdo, image = imagen, text = "")
+        seguro.grid(column = 0, row = 0)
+
+        #Boton de iniciar sesion
+        botonInicio = grafica.CTkButton(lado_derecho, text="Iniciar Sesion", #Botton para cambiar al cuadro de panel
+                  command=lambda: master.cambiar_cuadro(panel.Panel))
+        botonInicio.grid(column = 1, row = 1)
  
