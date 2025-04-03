@@ -1,5 +1,4 @@
 import customtkinter as grafica
-import boton as bt
 import funciones_utilidad as utilidades
 import panel
 from PIL import Image
@@ -34,7 +33,7 @@ class InicioSesion(grafica.CTkFrame): # La clase inicio sesion hereda del widget
 
 
         #Cargar imagen
-        imagen = grafica.CTkImage(light_image = Image.open("imagenes/seguro.jpg"), size = (900, 700))
+        imagen = grafica.CTkImage(light_image = Image.open("imagenes/seguro.png"), size = (900, 700))
         seguro = grafica.CTkLabel(master = lado_izquierdo, image = imagen, text = "")
         seguro.grid(column = 0, row = 0)
 
