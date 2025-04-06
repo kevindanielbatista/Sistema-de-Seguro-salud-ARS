@@ -7,12 +7,6 @@ class InicioSesion(grafica.CTkFrame): # La clase inicio sesion hereda del widget
     def __init__(self, master): # Constructor de la clase
         grafica.CTkFrame.__init__(self, master) #Llamar al constructor de la clase base
 
-        # Configuración del grid principal (expandir fila y columnas)
-        self.grid_rowconfigure(0, weight=1)  
-        self.grid_rowconfigure(1, weight=1)  
-        self.grid_columnconfigure(0, weight=1)  # Columna izquierda (50%)
-        self.grid_columnconfigure(1, weight=1)  # Columna derecha (50%)
-
         #Crear variable para cambiar de cuadros
         self._cuadro = None
 
@@ -20,7 +14,7 @@ class InicioSesion(grafica.CTkFrame): # La clase inicio sesion hereda del widget
         lado_izquierdo = grafica.CTkFrame(self)
         lado_izquierdo.grid(row = 1, column = 0, sticky = "nswe", padx = 2)
         lado_derecho = grafica.CTkFrame(self)
-        lado_derecho.grid(row = 1, column = 1, sticky = "nswe", padx = 2, ipadx = 150)
+        lado_derecho.grid(row = 1, column = 1, sticky = "nswe", ipadx = 150)
 
 
         # Configurar el grid del lado derecho para centrar el botón
