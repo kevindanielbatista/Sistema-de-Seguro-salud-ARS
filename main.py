@@ -3,10 +3,7 @@
 """
 
 #Importa la libreria necesaria para interfaces graficas
-
-import sys
-from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, 
-                            QPushButton, QVBoxLayout, QLabel)
+from PyQt6.QtWidgets import (QApplication)
 import VentanaPrincipal as vp 
 
 if __name__ == "__main__":
