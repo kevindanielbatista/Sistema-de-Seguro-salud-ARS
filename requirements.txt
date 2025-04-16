@@ -1,1 +1,2 @@
-customtkinter==5.2.2
+PyQt6==6.9.0
+
