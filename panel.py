@@ -32,7 +32,7 @@ class Panel(QWidget):
 
         self.configuracion = QPushButton("Configuración")
         self.configuracion.clicked.connect(self.mostrar_configuracion)
-        
+
         self.botonCerrarSesion = QPushButton("Cerrar sesión")
 
         organizacion = QVBoxLayout()
@@ -43,7 +43,7 @@ class Panel(QWidget):
         organizacion.addWidget(self.botonCitas)
         organizacion.addWidget(self.botonGestionarSeguros)
         organizacion.addWidget(self.botonReportes)
-        organizacion.addWidget(self.Configuracion)
+        organizacion.addWidget(self.configuracion)
         organizacion.addWidget(self.separador)
         organizacion.addWidget(self.botonCerrarSesion)
         self.setLayout(organizacion)
