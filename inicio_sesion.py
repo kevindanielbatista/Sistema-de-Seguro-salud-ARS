@@ -11,7 +11,6 @@ class Inicio_Sesion(QWidget):
         logo = img.Imagen("imagenes/seguro.png", 656, 688)
         formulario = QWidget() #Widget con informacion del formulario
         boton_inicio = QPushButton("Iniciar sesion", formulario)
-        boton_inicio.setCheckable(True)
         boton_inicio.clicked.connect(self.mostrar_ventana_panel)
 
         #variable que maneje la organizacion de los widgets (de forma horizontal.)
