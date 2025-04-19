@@ -1,17 +1,16 @@
 from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtWidgets import (QWidget,QPushButton, QHBoxLayout)
+from PyQt6.QtWidgets import (QWidget,QPushButton,
+                             QHBoxLayout, QLabel)
 import imagen as img
-import panel as pn
+import formulario as form
 
 class Inicio_Sesion(QWidget):
     def __init__(self):
         super().__init__()
 
-        #Imagen de el programa.
+        #Imagen de el programa
         logo = img.Imagen("imagenes/seguro.png", 656, 688)
-        formulario = QWidget() #Widget con informacion del formulario
-        boton_inicio = QPushButton("Iniciar sesion", formulario)
-        boton_inicio.clicked.connect(self.mostrar_ventana_panel)
+        datos = form.Formulario() #Widget con informacion del formulario
 
         #variable que maneje la organizacion de los widgets (de forma horizontal.)
         organizacion = QHBoxLayout()
@@ -21,15 +20,12 @@ class Inicio_Sesion(QWidget):
 
 
         organizacion.addWidget(logo)
-        organizacion.addWidget(formulario)
+        organizacion.addWidget(datos)
 
-        #variable para sostener objeto panel
-        self.panel_referencia = None
 
-    def mostrar_ventana_panel(self):
-        if not self.panel_referencia:
-            self.panel_referencia = pn.Panel()
-        self.panel_referencia.show()
-        self.parent().setCentralWidget(self.panel_referencia)
+
+
+
+    
 
 
