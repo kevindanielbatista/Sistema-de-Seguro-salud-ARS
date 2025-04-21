@@ -2,7 +2,8 @@ from PyQt6.QtWidgets import (QWidget,
 	                         QTableView,
 	                         QVBoxLayout, 
 	                         QLineEdit,
-	                         QHeaderView)
+	                         QHeaderView,
+	                         QLabel)
 from PyQt6.QtSql import QSqlDatabase, QSqlTableModel
 from PyQt6.QtCore import Qt
 import conexion as cx
