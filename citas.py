@@ -2,10 +2,12 @@ from PyQt6.QtWidgets import (QWidget,
                              QTableView, 
                              QVBoxLayout, 
                              QHeaderView,
-                             QLineEdit
+                             QLineEdit,
+                             QPushButton
                             )
 from PyQt6.QtSql import QSqlQueryModel, QSqlDatabase, QSqlQuery
 import conexion as cx
+import agregar_cita as agct
 
 class Citas(QWidget):
 	def __init__(self):
@@ -66,9 +68,15 @@ class Citas(QWidget):
 		self.busqueda.textChanged.connect(self.actualizar_filtro)
 
 
+		#Boton para agregar citas
+		self.agregar_ct = QPushButton("Agregar citas")
+		self.agregar_ct.clicked.connect(self.mostrar_agregar_citas)
+
+
 		#Agregar widget a la pantalla
 		organizacion.addWidget(self.busqueda)
-		organizacion.addWidget(self.tabla, stretch = 2)
+		organizacion.addWidget(self.tabla)
+		organizacion.addWidget(self.agregar_ct)
 
 
 
@@ -98,3 +106,7 @@ class Citas(QWidget):
 	    # Crear nueva consulta con la conexión
 	    consulta_filtrada = QSqlQuery(filtro, db=self.conectar)
 	    self.modelo.setQuery(consulta_filtrada)
+
+	def mostrar_agregar_citas(self):
+	    self.ventana = agct.AgregarCita()
+	    self.ventana.show()
