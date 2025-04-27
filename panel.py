@@ -50,12 +50,12 @@ class Panel(QWidget):
 
         self.setStyleSheet("""
             QPushButton{
-                background-color: white;
+                background-color: #40E0D0;
             }""")
 
         self.bienvenida.setStyleSheet("""
             QLabel{
-                background-color: white;
+                background-color: #40E0D0;
             }""")
 
     def mostrar_agregar_usuarios(self):

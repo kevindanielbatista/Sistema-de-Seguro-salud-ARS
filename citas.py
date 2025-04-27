@@ -3,7 +3,8 @@ from PyQt6.QtWidgets import (QWidget,
                              QVBoxLayout, 
                              QHeaderView,
                              QLineEdit,
-                             QPushButton
+                             QPushButton,
+                             QHBoxLayout
                             )
 from PyQt6.QtSql import QSqlQueryModel, QSqlDatabase, QSqlQuery
 import conexion as cx
@@ -24,48 +25,53 @@ class Citas(QWidget):
 		organizacion = QVBoxLayout()
 
 
-
-		#crear tabla en la que mostrar los resultados
+		#crear tabla en la que mostrar los resultados y conectarla al modelo
 		self.tabla = QTableView()
-
-
-		#Crear modelo de conexion para sql
 		self.modelo = QSqlQueryModel()
 		self.tabla.setModel(self.modelo)
 
 
-		#Crear consulta
-		consulta = QSqlQuery("""SELECT
-							        CLIENTES_ARS.NOMBRE AS Nombre,
-							        CLIENTES_ARS.APELLIDO AS Apellido,
-								    CITAS.FECHA_CITA AS 'Fecha cita',
-								    CITAS.HORA_CITA AS 'Hora cita',
-								    CITAS.MOTIVO AS Motivo,
-								    HOSPITALES.NOMBRE_HOSPITAL AS 'Nombre hospital',
-									HOSPITALES.TIPO AS Tipo,
-								    HOSPITALES.TELEFONO AS Telefono
-								FROM CLIENTES_ARS
-								INNER JOIN CITAS
-								ON CLIENTES_ARS.ID_CLIENTE = CITAS.ID_CLIENTE
-								INNER JOIN HOSPITALES
-								ON CITAS.ID_HOSPITAL = HOSPITALES.ID_HOSPITAL;
-							 """, db = self.conectar)
+		self.consulta = QSqlQuery(db = self.conectar)
+		self.consulta.prepare(
+			"""
+			   SELECT
+			        CLIENTES_ARS.NOMBRE AS Nombre,
+			        CLIENTES_ARS.APELLIDO AS Apellido,
+				    CITAS.FECHA_CITA AS 'Fecha cita',
+				    CITAS.HORA_CITA AS 'Hora cita',
+				    CITAS.MOTIVO AS Motivo,
+				    HOSPITALES.NOMBRE_HOSPITAL AS 'Nombre hospital',
+					HOSPITALES.TIPO AS Tipo,
+				    HOSPITALES.TELEFONO AS Telefono
+			   FROM CLIENTES_ARS
+			        INNER JOIN CITAS
+			        ON CLIENTES_ARS.ID_CLIENTE = CITAS.ID_CLIENTE
+			        INNER JOIN HOSPITALES
+			        ON CITAS.ID_HOSPITAL = HOSPITALES.ID_HOSPITAL
+			   WHERE CLIENTES_ARS.APELLIDO LIKE '%'|| :apellido ||'%' AND
+			         CITAS.MOTIVO LIKE '%'|| :motivo ||'%' AND
+			         HOSPITALES.NOMBRE_HOSPITAL LIKE '%'|| :hospital ||'%';
+		  """
+		)
               
 
+		#Barras de busqueda
+		self.busqueda_apellido = QLineEdit()
+		self.busqueda_apellido.setPlaceholderText("Buscar apellido....")
+		self.busqueda_apellido.textChanged.connect(self.actualizar_consulta)
 
+		self.busqueda_motivo = QLineEdit()
+		self.busqueda_motivo.setPlaceholderText("Buscar motivo cita....")
+		self.busqueda_motivo.textChanged.connect(self.actualizar_consulta)
 
-		#Realizar consulta
-		self.modelo.setQuery(consulta)
+		self.busqueda_hospital = QLineEdit()
+		self.busqueda_hospital.setPlaceholderText("Buscar hospital....")
+		self.busqueda_hospital.textChanged.connect(self.actualizar_consulta)
 
-
-		# Ajustar tabla a toda la pantalla
-		cabecera = self.tabla.horizontalHeader()
-		cabecera.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-
-
-		#Barra de busqueda
-		self.busqueda = QLineEdit()
-		self.busqueda.textChanged.connect(self.actualizar_filtro)
+		self.botones_busqueda = QHBoxLayout()
+		self.botones_busqueda.addWidget(self.busqueda_apellido)
+		self.botones_busqueda.addWidget(self.busqueda_motivo)
+		self.botones_busqueda.addWidget(self.busqueda_hospital)
 
 
 		#Boton para agregar citas
@@ -74,38 +80,34 @@ class Citas(QWidget):
 
 
 		#Agregar widget a la pantalla
-		organizacion.addWidget(self.busqueda)
+		organizacion.addLayout(self.botones_busqueda)
 		organizacion.addWidget(self.tabla)
 		organizacion.addWidget(self.agregar_ct)
 
+		self.actualizar_consulta()
+
+		# Ajustar tabla a toda la pantalla
+		cabecera = self.tabla.horizontalHeader()
+		cabecera.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
 
 
 		#establecer arreglo
 		self.setLayout(organizacion)
 
-	def actualizar_filtro(self, palabra):
-	    filtro = f"""
-	        SELECT
-	            CLIENTES_ARS.NOMBRE AS Nombre,
-	            CLIENTES_ARS.APELLIDO AS Apellido,
-	            CITAS.FECHA_CITA AS 'Fecha cita',
-	            CITAS.HORA_CITA AS 'Hora cita',
-	            CITAS.MOTIVO AS Motivo,
-	            HOSPITALES.NOMBRE_HOSPITAL AS 'Nombre hospital',
-	            HOSPITALES.TIPO AS Tipo,
-	            HOSPITALES.TELEFONO AS Telefono
-	        FROM CLIENTES_ARS
-	        INNER JOIN CITAS ON CLIENTES_ARS.ID_CLIENTE = CITAS.ID_CLIENTE
-	        INNER JOIN HOSPITALES ON CITAS.ID_HOSPITAL = HOSPITALES.ID_HOSPITAL
-	        WHERE CLIENTES_ARS.NOMBRE LIKE '%{palabra}%' 
-	           OR CLIENTES_ARS.APELLIDO LIKE '%{palabra}%'
-	           OR HOSPITALES.NOMBRE_HOSPITAL LIKE '%{palabra}%'
-	    """
-	    
-	    # Crear nueva consulta con la conexión
-	    consulta_filtrada = QSqlQuery(filtro, db=self.conectar)
-	    self.modelo.setQuery(consulta_filtrada)
+
+	def actualizar_consulta(self):
+		apellido = self.busqueda_apellido.text()
+		motivo = self.busqueda_motivo.text()
+		hospital = self.busqueda_hospital.text()
+
+		self.consulta.bindValue(":apellido", apellido)
+		self.consulta.bindValue(":motivo", motivo)
+		self.consulta.bindValue(":hospital", hospital)
+
+		self.consulta.exec()
+		self.modelo.setQuery(self.consulta)
+
 
 	def mostrar_agregar_citas(self):
 	    self.ventana = agct.AgregarCita()

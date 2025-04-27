@@ -52,7 +52,7 @@ class Formulario(QWidget):
 
 		self.setStyleSheet("""
 			QLabel{
-			    background-color: #ffffff;
+			    background-color: #40E0D0;
 			    font-weight: bold;
 			    font-size: 20 px;
 			}
