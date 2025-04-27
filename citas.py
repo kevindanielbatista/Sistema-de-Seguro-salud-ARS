@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (QWidget,
                              QHBoxLayout
                             )
 from PyQt6.QtSql import QSqlQueryModel, QSqlDatabase, QSqlQuery
+from PyQt6.QtCore import Qt
 import conexion as cx
 import agregar_cita as agct
 
@@ -28,6 +29,9 @@ class Citas(QWidget):
 		#crear tabla en la que mostrar los resultados y conectarla al modelo
 		self.tabla = QTableView()
 		self.modelo = QSqlQueryModel()
+		self.modelo.data = lambda index, role=Qt.ItemDataRole.DisplayRole: (
+		    str(self.modelo.data(index, Qt.ItemDataRole.DisplayRole)) if role == Qt.ItemDataRole.ToolTipRole 
+		    else QSqlQueryModel.data(self.modelo, index, role)) #Activar hover
 		self.tabla.setModel(self.modelo)
 
 
@@ -112,3 +116,8 @@ class Citas(QWidget):
 	def mostrar_agregar_citas(self):
 	    self.ventana = agct.AgregarCita()
 	    self.ventana.show()
+
+	def data(self, index, role):
+	    if role == Qt.ItemDataRole.ToolTipRole:
+	        return str(self.modelo.data(index))
+	    return super().data(index, role)
