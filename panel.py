@@ -48,6 +48,16 @@ class Panel(QWidget):
         organizacion.addWidget(self.botonCerrarSesion)
         self.setLayout(organizacion)
 
+        self.setStyleSheet("""
+            QPushButton{
+                background-color: white;
+            }""")
+
+        self.bienvenida.setStyleSheet("""
+            QLabel{
+                background-color: white;
+            }""")
+
     def mostrar_agregar_usuarios(self):
         self.ventana = agg.AgregarUsuarios()
         self.ventana.show()

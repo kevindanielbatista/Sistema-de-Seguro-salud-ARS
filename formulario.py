@@ -40,6 +40,30 @@ class Formulario(QWidget):
 		#variable para sostener objeto panel
 		self.panel_referencia = None
 
+		boton_inicio.setStyleSheet("""
+		    QPushButton {
+		        background-color: #3498db;
+		        font-weight: bold;
+		    }
+		    QPushButton:hover {
+		        background-color: #2980b9;
+		    }
+		""")
+
+		self.setStyleSheet("""
+			QLabel{
+			    background-color: #ffffff;
+			    font-weight: bold;
+			    font-size: 20 px;
+			}
+
+			QLineEdit{
+			    background-color: #ffffff;
+			}
+
+
+			""")
+
 	def mostrar_ventana_panel(self):
 	    if not self.panel_referencia:
 	        self.panel_referencia = pn.Panel()
