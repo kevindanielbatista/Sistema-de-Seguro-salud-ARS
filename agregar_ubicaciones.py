@@ -13,7 +13,7 @@ import conexion as cx
 class AgregarUbicacion(QWidget):
 	def __init__(self):
 		super().__init__()
-		self.setWindowTitle("AgregarUbicacion")
+		self.setWindowTitle("Agregar Ubicacion")
 
 		#Crear conexion base de datos
 		self.conectar = cx.Conexion()
@@ -68,3 +68,10 @@ class AgregarUbicacion(QWidget):
 
 		self.consulta.exec()
 		self.modelo.setQuery(self.consulta)
+		self.limpiar_campos()
+
+	def limpiar_campos(self):
+		self.ciudad.clear()
+		self.provincia.clear()
+		self.pais.clear()
+		self.codigo.clear()
