@@ -92,7 +92,7 @@ class AgregarCita(QWidget):
 	    self.modelo.setQuery(self.consulta)
 	    self.limpiar_campos()
 
-	def limpiar_campos():
+	def limpiar_campos(self):
 		self.id_cliente.clear()
 		self.id_hospital.clear()
 		self.hora.clear()
