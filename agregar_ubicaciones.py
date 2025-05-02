@@ -10,6 +10,7 @@ from PyQt6.QtGui import QIntValidator, QRegularExpressionValidator
 from PyQt6.QtCore import QRegularExpression
 from PyQt6.QtSql import QSqlQuery, QSqlQueryModel
 import conexion as cx
+import ver_ubicaciones as verubi
 class AgregarUbicacion(QWidget):
 	def __init__(self):
 		super().__init__()
@@ -49,10 +50,15 @@ class AgregarUbicacion(QWidget):
 		self.boton_enviar_cambios = QPushButton("Enviar cambios")
 		self.boton_enviar_cambios.clicked.connect(self.insertar_datos)
 
+		#crear boton para ver ubicaciones
+		self.boton_ver_ubicaciones = QPushButton("Ver ubicaciones")
+		self.boton_ver_ubicaciones.clicked.connect(self.__mostrar_ubicaciones)
+
 		#ORganizar todos los elementos
 		self.organizacion_elementos = QVBoxLayout()
 		self.organizacion_elementos.addLayout(self.organizacion)
 		self.organizacion_elementos.addWidget(self.boton_enviar_cambios)
+		self.organizacion_elementos.addWidget(self.boton_ver_ubicaciones)
 		self.setLayout(self.organizacion_elementos)
 
 	def insertar_datos(self):
@@ -75,3 +81,7 @@ class AgregarUbicacion(QWidget):
 		self.provincia.clear()
 		self.pais.clear()
 		self.codigo.clear()
+
+	def __mostrar_ubicaciones(self):
+		self.ventana = verubi.VerUbicaciones()
+		self.ventana.show()

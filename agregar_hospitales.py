@@ -10,6 +10,7 @@ from PyQt6.QtGui import QIntValidator, QRegularExpressionValidator
 from PyQt6.QtCore import QRegularExpression
 from PyQt6.QtSql import QSqlQuery, QSqlQueryModel
 import conexion as cx
+import ver_hospitales as verhos
 class AgregarHospital(QWidget):
 	def __init__(self):
 		super().__init__()
@@ -53,10 +54,15 @@ class AgregarHospital(QWidget):
 		self.boton_enviar_cambios = QPushButton("Enviar cambios")
 		self.boton_enviar_cambios.clicked.connect(self.insertar_datos)
 
+		#crear boton para ver ubicaciones
+		self.boton_ver_hospitales = QPushButton("Ver hospitales")
+		self.boton_ver_hospitales.clicked.connect(self.__mostrar_hospitales)
+
 		#Organizar todos los elementos
 		self.organizacion_elementos = QVBoxLayout()
 		self.organizacion_elementos.addLayout(self.organizacion)
 		self.organizacion_elementos.addWidget(self.boton_enviar_cambios)
+		self.organizacion_elementos.addWidget(self.boton_ver_hospitales)
 		self.setLayout(self.organizacion_elementos)
 
 	def insertar_datos(self):
@@ -77,4 +83,8 @@ class AgregarHospital(QWidget):
 		self.nombre_hospital.clear()
 		self.id_ubicacion.clear()
 		self.telefono.clear()
+
+	def __mostrar_hospitales(self):
+		self.ventana = verhos.VerHospitales()
+		self.ventana.show()
 
