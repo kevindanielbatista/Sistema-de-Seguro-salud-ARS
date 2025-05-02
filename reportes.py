@@ -17,45 +17,44 @@ class Reportes(QWidget):
         self.conn = sqlite3.connect('seguros.db')
         
         # Configuración del layout principal
-        main_layout = QVBoxLayout()
-        self.setLayout(main_layout)
+        layout_principal = QVBoxLayout()
+        self.setLayout(layout_principal)
         
         # Crear pestañas para los diferentes reportes
-        tab_widget = QTabWidget()
-        main_layout.addWidget(tab_widget)
+        pestana = QTabWidget()
+        layout_principal.addWidget(pestana)
         
         # Gráfico 1: Citas por Hospital
         tab1 = QWidget()
-        self.setup_chart1(tab1)
-        tab_widget.addTab(tab1, "Citas por Hospital")
+        self.grafica1(tab1)
+        pestana.addTab(tab1, "Citas por Hospital")
         
         # Gráfico 2: Tipos de Hospital
         tab2 = QWidget()
-        self.setup_chart2(tab2)
-        tab_widget.addTab(tab2, "Tipos de Hospital")
+        self.grafica2(tab2)
+        pestana.addTab(tab2, "Tipos de Hospital")
         
         # Gráfico 3: Tendencia Mensual
         tab3 = QWidget()
-        self.setup_chart3(tab3)
-        tab_widget.addTab(tab3, "Tendencia Mensual")
+        self.grafica3(tab3)
+        pestana.addTab(tab3, "Tendencia Mensual")
         
         # Gráfico 4: Distribución Geográfica
         tab4 = QWidget()
-        self.setup_chart4(tab4)
-        tab_widget.addTab(tab4, "Distribución Geográfica")
+        self.grafica4(tab4)
+        pestana.addTab(tab4, "Distribución Geográfica")
         
         # Gráfico 5: Clientes por Aseguradora
         tab5 = QWidget()
-        self.setup_chart5(tab5)
-        tab_widget.addTab(tab5, "Clientes por Aseguradora")
+        self.grafica5(tab5)
+        pestana.addTab(tab5, "Clientes por Aseguradora")
         
         # Gráfico 6: Motivos de Cita
         tab6 = QWidget()
-        self.setup_chart6(tab6)
-        tab_widget.addTab(tab6, "Motivos de Cita")
+        self.grafica6(tab6)
+        pestana.addTab(tab6, "Motivos de Cita")
     
-    def execute_query(self, query, params=None):
-        """Ejecuta una consulta SQL y retorna los resultados"""
+    def hacer_consulta(self, query, params=None):
         cursor = self.conn.cursor()
         if params:
             cursor.execute(query, params)
@@ -63,7 +62,7 @@ class Reportes(QWidget):
             cursor.execute(query)
         return cursor.fetchall()
     
-    def setup_chart1(self, parent):
+    def grafica1(self, parent):
         """Citas por Hospital (Gráfico de Barras)"""
         layout = QVBoxLayout(parent)
         
@@ -75,7 +74,7 @@ class Reportes(QWidget):
         GROUP BY H.NOMBRE_HOSPITAL
         ORDER BY CANTIDAD_CITAS DESC;
         """
-        data = self.execute_query(query)
+        data = self.hacer_consulta(query)
         
         # Preparar datos para el gráfico
         hospitales = [item[0] for item in data]
@@ -99,8 +98,7 @@ class Reportes(QWidget):
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
     
-    def setup_chart2(self, parent):
-        """Distribución de Tipos de Hospital (Gráfico de Pastel)"""
+    def grafica2(self, parent):
         layout = QVBoxLayout(parent)
         
         # Consulta SQL
@@ -110,7 +108,7 @@ class Reportes(QWidget):
         JOIN CITAS C ON H.ID_HOSPITAL = C.ID_HOSPITAL
         GROUP BY H.TIPO;
         """
-        data = self.execute_query(query)
+        data = self.hacer_consulta(query)
         
         # Preparar datos
         tipos = [item[0] for item in data]
@@ -130,8 +128,7 @@ class Reportes(QWidget):
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
     
-    def setup_chart3(self, parent):
-        """Tendencia Mensual de Citas (Gráfico de Líneas)"""
+    def grafica3(self, parent):
         layout = QVBoxLayout(parent)
         
         # Consulta SQL
@@ -142,7 +139,7 @@ class Reportes(QWidget):
         GROUP BY MES
         ORDER BY MES;
         """
-        data = self.execute_query(query)
+        data = self.hacer_consulta(query)
         
         # Preparar datos
         meses = [datetime.strptime(item[0], '%Y-%m') for item in data]
@@ -166,8 +163,7 @@ class Reportes(QWidget):
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
     
-    def setup_chart4(self, parent):
-        """Distribución Geográfica de Citas (Gráfico de Barras)"""
+    def grafica4(self, parent):
         layout = QVBoxLayout(parent)
         
         # Consulta SQL
@@ -179,7 +175,7 @@ class Reportes(QWidget):
         GROUP BY U.PROVINCIA
         ORDER BY CANTIDAD DESC;
         """
-        data = self.execute_query(query)
+        data = self.hacer_consulta(query)
         
         # Preparar datos
         provincias = [item[0] for item in data]
@@ -212,8 +208,7 @@ class Reportes(QWidget):
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
     
-    def setup_chart5(self, parent):
-        """Clientes por Aseguradora (Gráfico de Barras Apiladas)"""
+    def grafica5(self, parent):
         layout = QVBoxLayout(parent)
         
         # Consulta SQL para obtener compañías y planes
@@ -223,7 +218,7 @@ class Reportes(QWidget):
         GROUP BY S.COMPAÑIA_SEGURO, S.PLAN
         ORDER BY S.COMPAÑIA_SEGURO, CLIENTES DESC;
         """
-        data = self.execute_query(query)
+        data = self.hacer_consulta(query)
         
         # Procesar datos para gráfico apilado
         compañias = {}
@@ -272,8 +267,7 @@ class Reportes(QWidget):
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
     
-    def setup_chart6(self, parent):
-        """Motivos de Cita Más Comunes (Gráfico de Barras)"""
+    def grafica6(self, parent):
         layout = QVBoxLayout(parent)
         
         # Consulta SQL
@@ -285,7 +279,7 @@ class Reportes(QWidget):
         ORDER BY FRECUENCIA DESC
         LIMIT 10;
         """
-        data = self.execute_query(query)
+        data = self.hacer_consulta(query)
         
         # Preparar datos
         motivos = [item[0] for item in data]
@@ -297,7 +291,7 @@ class Reportes(QWidget):
         
         # Personalizar gráfico
         bars = ax.barh(motivos, frecuencias, color='lightgreen')
-        ax.set_title('Top 10 Motivos de Cita', pad=20)
+        ax.set_title('Motivos de citas mas frecuentes', pad=20)
         ax.set_xlabel('Frecuencia')
         ax.set_ylabel('Motivo')
         
@@ -315,7 +309,6 @@ class Reportes(QWidget):
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
     
-    def closeEvent(self, event):
-        """Cerrar conexión a la base de datos al cerrar la ventana"""
+    def cerrar_conexion(self, event):
         self.conn.close()
-        super().closeEvent(event)
+        super().cerrar_conexion(event)
